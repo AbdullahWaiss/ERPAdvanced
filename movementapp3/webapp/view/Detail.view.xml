@@ -1,0 +1,99 @@
+<mvc:View
+controllerName="movementapp3.controller.Detail"
+xmlns="sap.m"
+xmlns:semantic="sap.f.semantic"
+xmlns:mvc="sap.ui.core.mvc">
+<semantic:SemanticPage
+    id="detailPage"
+    busy="{detailView>/busy}"
+    busyIndicatorDelay="{detailView>/delay}">
+    <semantic:titleHeading>
+        <Title
+            text="{Id}"
+            level="H2"/>
+    </semantic:titleHeading>
+    <semantic:headerContent>
+        <ObjectNumber />
+    </semantic:headerContent>
+    <semantic:content>
+
+    
+
+        <Table
+            id="lineItemsList"
+            width="auto"
+            items="{
+                path: 'ToMoveItem',
+                parameters: {
+                    expand: 'ExpandedEntitySet',
+                    select: 'MovId, ItemId, Matnr, Umziz, Meins'
+                }
+            }"
+            updateFinished=".onListUpdateFinished"
+            noDataText="{i18n>detailLineItemTableNoDataText}"
+            busyIndicatorDelay="{detailView>/lineItemTableDelay}">
+            <headerToolbar>
+                <Toolbar>
+                    <Title
+                        id="lineItemsTitle"
+                        text="Moves"
+                        titleStyle="H3"
+                        level="H3"/>
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column>
+                    <Text text="ItemId"/>
+                </Column>
+                <Column>
+                    <Text text="Matnr"/>
+                </Column>
+                <Column>
+                    <Text text="Umziz"/>
+                </Column> 
+                <Column>
+                    <Text text="Meins"/>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{ToMoveItem/MovId}" />
+                        <Text text="{ToMoveItem/ItemId}" />
+                        <Text text="{ToMoveItem/Matnr}" />
+                        <Text text="{ToMoveItem/Umziz}" />
+                        <Text text="{ToMoveItem/Meins}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+
+        </Table>
+    </semantic:content>
+    <!--Semantic ShareMenu Buttons-->
+    <semantic:sendEmailAction>
+        <semantic:SendEmailAction
+            id="shareEmail"
+            press=".onSendEmailPress"/>
+    </semantic:sendEmailAction>
+
+    <semantic:closeAction>
+        <semantic:CloseAction
+                id="closeColumn"
+                press=".onCloseDetailPress"/>
+    </semantic:closeAction>
+
+    <semantic:fullScreenAction>
+        <semantic:FullScreenAction
+                id="enterFullScreen"
+                visible="{= !${device>/system/phone} &amp;&amp; !${appView>/actionButtonsInfo/midColumn/fullScreen}}"
+                press=".toggleFullScreen"/>
+    </semantic:fullScreenAction>
+    <semantic:exitFullScreenAction>
+        <semantic:ExitFullScreenAction
+                id="exitFullScreen"
+                visible="{= !${device>/system/phone} &amp;&amp; ${appView>/actionButtonsInfo/midColumn/fullScreen}}"
+                press=".toggleFullScreen"/>
+    </semantic:exitFullScreenAction>
+
+</semantic:SemanticPage>
+</mvc:View>
